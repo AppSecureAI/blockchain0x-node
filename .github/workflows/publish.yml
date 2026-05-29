@@ -1,5 +1,5 @@
-# Publish @blockchain0x/node to npm with full Sigstore
-# provenance attestation. Manual dispatch only.
+# Publish @blockchain0x/node to npm with full Sigstore provenance
+# attestation. Manual dispatch only.
 #
 # Requires npm Trusted Publisher binding on
 # https://www.npmjs.com/package/@blockchain0x/node/access:
@@ -8,6 +8,11 @@
 #   Repository name:   blockchain0x-node
 #   Workflow filename: publish.yml
 #   Environment:       (blank)
+#
+# This file is mirrored from the private monorepo
+# `Tosh-Labs/blockchain0x-app:packages/sdk-node/.public-templates/.github/workflows/publish.yml`
+# by the `mirror-sdk-node` workflow there. Do not edit it directly in
+# the public repo - changes will be overwritten on the next mirror.
 
 name: publish
 
@@ -15,7 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'npm dist-tag (alpha | beta | latest)'
+        description: 'npm dist-tag'
         required: true
         default: 'alpha'
         type: choice
@@ -38,8 +43,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          # No registry-url - leaving it out keeps ~/.npmrc
-          # free of an empty authToken that would shortcut OIDC.
+          # Do NOT set registry-url - it writes ~/.npmrc with an empty
+          # authToken that shortcuts OIDC. Default registry is npmjs.org
+          # so this is a no-op for routing.
 
       - name: upgrade npm CLI for OIDC support (needs >=11.5.1)
         run: npm install -g npm@latest
@@ -51,7 +57,9 @@ jobs:
         run: npm run build
 
       - name: publish (OIDC + provenance + selected tag)
+        env:
+          DIST_TAG: ${{ inputs.tag }}
         run: |
           rm -f "$HOME/.npmrc"
           npm --version
-          npm publish --provenance --access public --tag ""
+          npm publish --provenance --access public --tag "$DIST_TAG"
