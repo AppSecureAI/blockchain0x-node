@@ -1,0 +1,57 @@
+# Publish @blockchain0x/node to npm with full Sigstore
+# provenance attestation. Manual dispatch only.
+#
+# Requires npm Trusted Publisher binding on
+# https://www.npmjs.com/package/@blockchain0x/node/access:
+#   Publisher type:    GitHub Actions
+#   Repository owner:  Tosh-Labs
+#   Repository name:   blockchain0x-node
+#   Workflow filename: publish.yml
+#   Environment:       (blank)
+
+name: publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'npm dist-tag (alpha | beta | latest)'
+        required: true
+        default: 'alpha'
+        type: choice
+        options:
+          - alpha
+          - beta
+          - latest
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          # No registry-url - leaving it out keeps ~/.npmrc
+          # free of an empty authToken that would shortcut OIDC.
+
+      - name: upgrade npm CLI for OIDC support (needs >=11.5.1)
+        run: npm install -g npm@latest
+
+      - name: install deps
+        run: npm install --no-package-lock
+
+      - name: build
+        run: npm run build
+
+      - name: publish (OIDC + provenance + selected tag)
+        run: |
+          rm -f "$HOME/.npmrc"
+          npm --version
+          npm publish --provenance --access public --tag ""

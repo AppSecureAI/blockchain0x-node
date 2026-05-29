@@ -1,0 +1,78 @@
+{
+  "name": "@blockchain0x/node",
+  "version": "0.1.0-alpha.1",
+  "description": "Official Blockchain0x Node.js SDK. Authenticated REST client + webhook signature verification helper. See https://blockchain0x.com/docs/sdk-node.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./webhooks": {
+      "types": "./dist/webhooks/index.d.ts",
+      "import": "./dist/webhooks/index.js"
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "blockchain0x",
+    "blockchain",
+    "base",
+    "base-blockchain",
+    "ai-agent",
+    "agent",
+    "agents",
+    "agent-wallet",
+    "smart-account",
+    "smart-wallet",
+    "non-custodial",
+    "wallet",
+    "wallet-sdk",
+    "usdc",
+    "stablecoin",
+    "payments",
+    "invoices",
+    "webhook",
+    "webhooks",
+    "webhook-verification",
+    "hmac",
+    "sdk",
+    "typescript",
+    "nodejs"
+  ],
+  "homepage": "https://github.com/Tosh-Labs/blockchain0x-node#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tosh-Labs/blockchain0x-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tosh-Labs/blockchain0x-node/issues"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src/",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo *.tsbuildinfo"
+  },
+  "devDependencies": {
+    "typescript": "5.6.2",
+    "vitest": "^4.1.6"
+  }
+}

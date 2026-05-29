@@ -54,10 +54,10 @@ The bound agent + workspace + network is determined by the API key. You never ha
 
 An API key carries one of three scopes (set when you mint the key in the dashboard):
 
-| Scope | What it grants |
-|---|---|
-| `wallet:read` | Read balances, transactions, audit log, spend permissions, usage. |
-| `payments:write` | Create payments (`client.payments.create(...)`). |
+| Scope            | What it grants                                                                |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `wallet:read`    | Read balances, transactions, audit log, spend permissions, usage.             |
+| `payments:write` | Create payments (`client.payments.create(...)`).                              |
 | `invoices:write` | Create payment requests / invoices (`POST /v1/agents/{id}/payment-requests`). |
 
 A key without `payments:write` calling `payments.create` gets a `403 apikey.scope_insufficient` response. The SDK surfaces this as a typed `ApiKeyError` you can branch on (see below).
@@ -183,16 +183,16 @@ The default transport retries on `429` (honouring `Retry-After`) and `5xx`, with
 
 ## Roadmap
 
-| Status | Surface |
-|---|---|
-| Shipped | `agents` resource (get + list + create) |
-| Shipped | `apiKeys` resource (list + create + rotate + revoke + usage) |
-| Shipped | `webhooks` resource (CRUD + rotate-secret + test-fire) |
-| Shipped | `payments.create` with auto Idempotency-Key |
-| Shipped | `webhooks.verify` HMAC verifier (5-minute replay window, constant-time) |
-| In design | Browser ESM bundle (Edge + Cloudflare Workers compatible) |
-| In design | React hooks (`useAgents`, `useApiUsage`, ...) |
-| In design | Python sibling: `pip install blockchain0x` |
+| Status    | Surface                                                                 |
+| --------- | ----------------------------------------------------------------------- |
+| Shipped   | `agents` resource (get + list + create)                                 |
+| Shipped   | `apiKeys` resource (list + create + rotate + revoke + usage)            |
+| Shipped   | `webhooks` resource (CRUD + rotate-secret + test-fire)                  |
+| Shipped   | `payments.create` with auto Idempotency-Key                             |
+| Shipped   | `webhooks.verify` HMAC verifier (5-minute replay window, constant-time) |
+| In design | Browser ESM bundle (Edge + Cloudflare Workers compatible)               |
+| In design | React hooks (`useAgents`, `useApiUsage`, ...)                           |
+| In design | Python sibling: `pip install blockchain0x`                              |
 
 ## Reporting issues
 
