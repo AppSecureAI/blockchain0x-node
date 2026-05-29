@@ -5,6 +5,10 @@ All notable changes to `@blockchain0x/node` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-alpha.2] - 2026-05-29
+
+minor
+
 ## [0.2.0-alpha.1] - 2026-05-29
 
 MInor update
@@ -65,6 +69,7 @@ rotateSecret(id) / test(id, body)` resource.
   backoff (250ms / 500ms / 1s, capped at 8s, 3 retries, 50% jitter).
   `POST /v1/payments` is retry-off by default.
 
+[0.2.0-alpha.2]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.2.0-alpha.2
 [0.2.0-alpha.1]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.2.0-alpha.1
 [0.1.0-alpha.2]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.1.0-alpha.1
