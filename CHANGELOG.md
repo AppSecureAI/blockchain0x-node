@@ -5,12 +5,30 @@ All notable changes to `@blockchain0x/node` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.2] - 2026-05-29
+
+First release published from the public mirror repo
+(`Tosh-Labs/blockchain0x-node`) via npm Trusted Publisher OIDC with
+Sigstore **provenance attestation**. Functionally identical to
+`0.1.0-alpha.1`; this version validates the two-stage release pipeline
+(private monorepo -> mirror to public repo -> publish from public repo
+with provenance).
+
+### Changed
+
+- `package.json` now declares `@types/node` in devDependencies so a
+  standalone `npm install` outside the monorepo resolves cleanly. This
+  was implicit (hoisted) in the monorepo build but explicit here for
+  the public-repo build path.
+
 ## [0.1.0-alpha.1] - 2026-05-29
 
-First release published via GitHub Actions + npm Trusted Publisher OIDC
-(provenance attestation). Functionally identical to `0.1.0-alpha.0`; this
-version validates the CI publish wire and ships the LICENSE + CHANGELOG
-files alongside the tarball.
+Published from the private monorepo via npm Trusted Publisher OIDC,
+WITHOUT provenance attestation (npm requires the source repo to be
+public for `--provenance` and `blockchain0x-app` is private).
+Functionally identical to `0.1.0-alpha.0`; this version validated the
+CI publish wire and ships the LICENSE + CHANGELOG files alongside the
+tarball.
 
 ### Added
 
@@ -43,5 +61,6 @@ rotateSecret(id) / test(id, body)` resource.
   backoff (250ms / 500ms / 1s, capped at 8s, 3 retries, 50% jitter).
   `POST /v1/payments` is retry-off by default.
 
+[0.1.0-alpha.2]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.1.0-alpha.1
 [0.1.0-alpha.0]: https://github.com/Tosh-Labs/blockchain0x-node/releases/tag/v0.1.0-alpha.0

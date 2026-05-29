@@ -1,6 +1,6 @@
 {
   "name": "@blockchain0x/node",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "Official Blockchain0x Node.js SDK. Authenticated REST client + webhook signature verification helper. See https://blockchain0x.com/docs/sdk-node.",
   "type": "module",
   "main": "./dist/index.js",
@@ -72,6 +72,7 @@
     "clean": "rm -rf dist .turbo *.tsbuildinfo"
   },
   "devDependencies": {
+    "@types/node": "^20.14.10",
     "typescript": "5.6.2",
     "vitest": "^4.1.6"
   }
