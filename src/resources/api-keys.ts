@@ -12,7 +12,24 @@
 
 import type { HttpTransport } from '../http.js';
 
-export type ApiKeyScope = 'wallet:read' | 'payments:write' | 'invoices:write';
+/**
+ * Sub-plan 21.2 §3.1: the closed set of wire-level scopes the dashboard
+ * offers at create-time. The names mirror the dashboard's human-readable
+ * checkboxes:
+ *
+ *   read_wallet_metadata   - see balances, txns, history, limits
+ *   manage_wallet_metadata - + update profile copy (tagline, social, about)
+ *   pay_bills              - outbound payments, capped by spend allowance
+ *   receive_money          - create invoices + settle them with on-chain proof
+ *
+ * Identity (name, slug, visibility, disabled) and infrastructure (API key
+ * CRUD, webhook CRUD, spend permission writes) are dashboard-only forever.
+ */
+export type ApiKeyScope =
+  | 'read_wallet_metadata'
+  | 'manage_wallet_metadata'
+  | 'pay_bills'
+  | 'receive_money';
 
 export interface ApiKey {
   id: string;
@@ -72,7 +89,7 @@ export interface ApiKeysResource {
   revoke(apiKeyId: string): Promise<void>;
   /**
    * GET /v1/api-keys/usage. Exempted from the hard-block; an
-   * agent-scoped key can read its OWN agent's rollup with `wallet:read`
+   * agent-scoped key can read its OWN agent's rollup with `read_wallet_metadata`
    * (AK-30..32). Passing a disagreeing `agentId` returns
    * `apikey.agent_mismatch`.
    */

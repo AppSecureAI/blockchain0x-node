@@ -30,6 +30,17 @@ export type { Blockchain0xClient, CreateClientOptions } from './client.js';
 export { Blockchain0xError, ApiKeyError, WebhookSignatureError } from './errors.js';
 export type { Blockchain0xErrorBody } from './errors.js';
 
+// Sub-plan 21.2 row A-3 / B-3: settle + transactions resources are
+// exported so the `@blockchain0x/x402` package can typecheck against
+// the client's `paymentRequests` and `transactions` namespaces without
+// reaching into private paths.
+export type {
+  PaymentRequestSettleBody,
+  PaymentRequestSettled,
+  PaymentRequestsResource,
+} from './resources/payment-requests.js';
+export type { Transaction, TransactionsResource } from './resources/transactions.js';
+
 // `webhooks.verify` is exported BOTH as a top-level namespace and via
 // the `./webhooks` subpath so customers can pick whichever import shape
 // suits their bundler. Both forms resolve to the same implementation.

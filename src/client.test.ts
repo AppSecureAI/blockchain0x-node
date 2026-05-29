@@ -63,17 +63,17 @@ describe('createClient.apiKeys', () => {
         id: 'ak_1',
         prefix: 'sk_test_abc',
         label: 'k',
-        scopes: ['wallet:read'],
+        scopes: ['read_wallet_metadata'],
         agentId: null,
         secret: 'sk_test_REVEALED',
       })
     );
     const client = build(fetch);
-    const key = await client.apiKeys.create({ label: 'k', scopes: ['wallet:read'] });
+    const key = await client.apiKeys.create({ label: 'k', scopes: ['read_wallet_metadata'] });
     expect(key.secret).toBe('sk_test_REVEALED');
     const init = fetch.mock.calls[0]![1] as RequestInit;
     expect(init.method).toBe('POST');
-    expect(init.body).toBe('{"label":"k","scopes":["wallet:read"]}');
+    expect(init.body).toBe('{"label":"k","scopes":["read_wallet_metadata"]}');
   });
 
   it('DELETE /v1/api-keys/:id resolves on 204', async () => {
@@ -291,7 +291,7 @@ describe('createClient.payments', () => {
 
   it('surfaces ApiKeyError when the server returns apikey.scope_insufficient', async () => {
     const fetch = vi.fn(async () =>
-      ok({ error: { code: 'apikey.scope_insufficient', message: 'need payments:write' } }, 403)
+      ok({ error: { code: 'apikey.scope_insufficient', message: 'need pay_bills' } }, 403)
     );
     const client = build(fetch);
     await expect(

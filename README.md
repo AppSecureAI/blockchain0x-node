@@ -40,7 +40,7 @@ const client = createClient({
   apiKey: process.env.B0X_API_KEY!, // sk_test_... or sk_live_...
 });
 
-// Read the agent's profile (any wallet:read or stronger scope).
+// Read the agent's profile (any read_wallet_metadata or stronger scope).
 const agent = await client.agents.get('agt_01HQX5...');
 
 // Read 24h usage.
@@ -52,15 +52,18 @@ The bound agent + workspace + network is determined by the API key. You never ha
 
 ## Authentication + scopes
 
-An API key carries one of three scopes (set when you mint the key in the dashboard):
+An API key carries one or more of four wire-level scopes (set when you mint the key in the dashboard):
 
-| Scope            | What it grants                                                                |
-| ---------------- | ----------------------------------------------------------------------------- |
-| `wallet:read`    | Read balances, transactions, audit log, spend permissions, usage.             |
-| `payments:write` | Create payments (`client.payments.create(...)`).                              |
-| `invoices:write` | Create payment requests / invoices (`POST /v1/agents/{id}/payment-requests`). |
+| Scope                    | What it grants                                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `read_wallet_metadata`   | Read balances, transactions, earnings, audit log, spend permissions, payment requests, usage.               |
+| `manage_wallet_metadata` | Superset of `read_wallet_metadata`. Adds: update public profile copy (tagline, social, about, SEO, avatar). |
+| `pay_bills`              | Create payments (`client.payments.create(...)`). Capped by the agent's spend permission allowance.          |
+| `receive_money`          | Create payment requests / invoices AND settle them on-chain (`paymentRequests.settle`).                     |
 
-A key without `payments:write` calling `payments.create` gets a `403 apikey.scope_insufficient` response. The SDK surfaces this as a typed `ApiKeyError` you can branch on (see below).
+Identity (name, slug, public visibility, disabled flag) is dashboard-only forever - no scope can mutate it. API-key CRUD and webhook CRUD are also dashboard-only.
+
+A key without `pay_bills` calling `payments.create` gets a `403 apikey.scope_insufficient` response. The SDK surfaces this as a typed `ApiKeyError` you can branch on (see below).
 
 ## Webhooks: receive + verify
 
@@ -153,7 +156,7 @@ try {
     //   apikey.agent_mismatch | apikey.agent_revoked
     //   apikey.unsupported_endpoint
     if (err.code === 'apikey.scope_insufficient') {
-      // Mint a key with payments:write
+      // Mint a key with pay_bills
     }
   } else if (err instanceof Blockchain0xError) {
     // Any non-apikey error envelope from the API.

@@ -11,6 +11,11 @@ import { createAgentsResource, type AgentsResource } from './resources/agents.js
 import { createApiKeysResource, type ApiKeysResource } from './resources/api-keys.js';
 import { createWebhooksResource, type WebhooksResource } from './resources/webhooks.js';
 import { createPaymentsResource, type PaymentsResource } from './resources/payments.js';
+import {
+  createPaymentRequestsResource,
+  type PaymentRequestsResource,
+} from './resources/payment-requests.js';
+import { createTransactionsResource, type TransactionsResource } from './resources/transactions.js';
 
 export interface CreateClientOptions {
   apiKey: string;
@@ -35,6 +40,8 @@ export interface Blockchain0xClient {
   readonly apiKeys: ApiKeysResource;
   readonly webhooks: WebhooksResource;
   readonly payments: PaymentsResource;
+  readonly paymentRequests: PaymentRequestsResource;
+  readonly transactions: TransactionsResource;
 }
 
 const DEFAULT_BASE_URL = 'https://api.blockchain0x.com';
@@ -69,5 +76,7 @@ export function createClient(options: CreateClientOptions): Blockchain0xClient {
     apiKeys: createApiKeysResource(http),
     webhooks: createWebhooksResource(http),
     payments: createPaymentsResource(http),
+    paymentRequests: createPaymentRequestsResource(http),
+    transactions: createTransactionsResource(http),
   };
 }
